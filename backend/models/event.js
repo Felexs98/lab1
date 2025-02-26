@@ -20,6 +20,12 @@ const Event = sequelize.define('Event', {
     type: DataTypes.DATE,
     allowNull: false,  // Дата обязательна
   },
+  category: {
+    type: DataTypes.ENUM('концерт', 'лекция', 'выставка', 'семинар', 'фестиваль'),
+    allowNull: false,
+    defaultValue: 'лекция', // Укажите значение по умолчанию
+},
+
   createdBy: {
     type: DataTypes.UUID,
     allowNull: false,

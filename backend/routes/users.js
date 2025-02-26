@@ -4,7 +4,37 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
-//  Получение списка всех пользователей (GET /users)
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API для управления пользователями
+ */
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Получить список всех пользователей
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Список пользователей
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     format: uuid
+ *                   name:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ */
 router.get('/', async (req, res) => {
     try {
         const users = await User.findAll();
@@ -14,7 +44,48 @@ router.get('/', async (req, res) => {
     }
 });
 
-//  Создание нового пользователя (POST /users)
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Создать нового пользователя
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Иван Иванов"
+ *               email:
+ *                 type: string
+ *                 example: "ivan@example.com"
+ *     responses:
+ *       201:
+ *         description: Пользователь успешно создан
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   format: uuid
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *       400:
+ *         description: Ошибка валидации или email уже используется
+ *       500:
+ *         description: Внутренняя ошибка сервера
+ */
 router.post('/', async (req, res) => {
     try {
         const { name, email } = req.body;
