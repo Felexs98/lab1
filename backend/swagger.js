@@ -15,11 +15,20 @@ const options = {
                 description: 'Локальный сервер',
             },
         ],
+        components: {
+            securitySchemes: {
+                ApiKeyAuth: {
+                    type: 'apiKey',
+                    in: 'header',            // Ключ будет передаваться в заголовке
+                    name: 'x-api-key'         // 
+                }
+            }
+        }
     },
-    apis: ['./routes/*.js'], // 
+    apis: ['./routes/*.js'],
 };
+
 
 const specs = swaggerJsdoc(options);
 
 module.exports = { swaggerUi, specs };
-
