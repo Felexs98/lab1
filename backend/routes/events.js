@@ -17,6 +17,8 @@ const router = express.Router();
  *   get:
  *     summary: Получить список всех мероприятий
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: query
  *         name: category
@@ -30,6 +32,8 @@ const router = express.Router();
  *   post:
  *     summary: Создать новое мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -86,6 +90,8 @@ router.get('/', async (req, res) => {
  *   get:
  *     summary: Получить мероприятие по ID
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -142,6 +148,8 @@ router.post('/', async (req, res) => {
  *   put:
  *     summary: Обновить мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -202,6 +210,8 @@ router.put('/:id', async (req, res) => {
  *   delete:
  *     summary: Удалить мероприятие
  *     tags: [Events]
+ *     security:
+ *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
  *         name: id

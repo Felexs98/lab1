@@ -17,6 +17,8 @@ const router = express.Router();
  *   get:
  *     summary: Получить список всех пользователей
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       200:
  *         description: Список пользователей
@@ -50,6 +52,8 @@ router.get('/', async (req, res) => {
  *   post:
  *     summary: Создать нового пользователя
  *     tags: [Users]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
