@@ -17,17 +17,10 @@ const options = {
         ],
         components: {
             securitySchemes: {
-<<<<<<< HEAD
-                ApiKeyAuth: {
-                    type: 'apiKey',
-                    in: 'header',            // Ключ будет передаваться в заголовке
-                    name: 'x-api-key'         // Вот тот самый заголовок
-=======
                 BearerAuth: {
                     type: 'http',
                     scheme: 'bearer',
                     bearerFormat: 'JWT'
->>>>>>> feature/lab2
                 }
             }
         }

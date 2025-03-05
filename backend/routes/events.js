@@ -13,33 +13,11 @@ const router = express.Router();
 /**
  * @swagger
  * /events:
-<<<<<<< HEAD
- *   get:
- *     summary: Получить список всех мероприятий
- *     tags: [Events]
- *     security:
- *       - ApiKeyAuth: []
- *     parameters:
- *       - in: query
- *         name: category
- *         schema:
- *           type: string
- *           enum: ["концерт", "лекция", "выставка", "семинар", "фестиваль"]
- *         description: Фильтр по категории
- *     responses:
- *       200:
- *         description: Список мероприятий
-=======
->>>>>>> feature/lab2
  *   post:
  *     summary: Создать новое мероприятие
  *     tags: [Events]
  *     security:
-<<<<<<< HEAD
- *       - ApiKeyAuth: []
-=======
  *       - BearerAuth: []
->>>>>>> feature/lab2
  *     requestBody:
  *       required: true
  *       content:
@@ -61,61 +39,8 @@ const router = express.Router();
  *       201:
  *         description: Мероприятие создано
  */
-<<<<<<< HEAD
-router.get('/', async (req, res) => {
-    try {
-        const { category } = req.query;
-
-        let filter = {};
-        if (category) {
-            filter.category = category;
-        }
-
-        const events = await Event.findAll({ where: filter });
-        res.status(200).json(events);
-    } catch (error) {
-        res.status(500).json({ error: 'Ошибка сервера', details: error.message });
-    }
-});
-
-/**
- * @swagger
- * /events/{id}:
- *   get:
- *     summary: Получить мероприятие по ID
- *     tags: [Events]
- *     security:
- *       - ApiKeyAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *           format: uuid
- *         description: UUID мероприятия
- *     responses:
- *       200:
- *         description: Данные о мероприятии
- *       404:
- *         description: Мероприятие не найдено
- */
-router.get('/:id', async (req, res) => {
-    try {
-        const event = await Event.findByPk(req.params.id);
-        if (!event) {
-            return res.status(404).json({ error: 'Мероприятие не найдено' });
-        }
-        res.status(200).json(event);
-    } catch (error) {
-        res.status(500).json({ error: 'Ошибка сервера', details: error.message });
-    }
-});
-
-=======
->>>>>>> feature/lab2
 router.post('/', async (req, res) => {
-   console.log('req.user:', req.user);
+    console.log('req.user:', req.user);
     try {
         const { title, description, date, category } = req.body;
         const createdBy = req.user.id;
@@ -134,11 +59,7 @@ router.post('/', async (req, res) => {
  *     summary: Обновить мероприятие по ID
  *     tags: [Events]
  *     security:
-<<<<<<< HEAD
- *       - ApiKeyAuth: []
-=======
  *       - BearerAuth: []
->>>>>>> feature/lab2
  *     parameters:
  *       - in: path
  *         name: id
@@ -164,9 +85,29 @@ router.post('/', async (req, res) => {
  *     responses:
  *       200:
  *         description: Мероприятие обновлено
+ *       403:
+ *         description: Доступ запрещён (пользователь не владеет мероприятием)
+ *       404:
+ *         description: Мероприятие не найдено
  */
 router.put('/:id', async (req, res) => {
-    // Логика обновления
+    try {
+        const event = await Event.findByPk(req.params.id);
+
+        if (!event) {
+            return res.status(404).json({ error: 'Мероприятие не найдено' });
+        }
+
+        // Проверка, что пользователь является владельцем
+        if (event.createdBy !== req.user.id) {
+            return res.status(403).json({ error: 'Вы не можете редактировать это мероприятие' });
+        }
+
+        await event.update(req.body);
+        res.status(200).json({ message: 'Мероприятие обновлено', event });
+    } catch (error) {
+        res.status(500).json({ error: 'Ошибка при обновлении мероприятия', details: error.message });
+    }
 });
 
 /**
@@ -176,11 +117,7 @@ router.put('/:id', async (req, res) => {
  *     summary: Удалить мероприятие по ID
  *     tags: [Events]
  *     security:
-<<<<<<< HEAD
- *       - ApiKeyAuth: []
-=======
  *       - BearerAuth: []
->>>>>>> feature/lab2
  *     parameters:
  *       - in: path
  *         name: id
@@ -190,9 +127,29 @@ router.put('/:id', async (req, res) => {
  *     responses:
  *       200:
  *         description: Мероприятие удалено
+ *       403:
+ *         description: Доступ запрещён (пользователь не владеет мероприятием)
+ *       404:
+ *         description: Мероприятие не найдено
  */
 router.delete('/:id', async (req, res) => {
-    // Логика удаления
+    try {
+        const event = await Event.findByPk(req.params.id);
+
+        if (!event) {
+            return res.status(404).json({ error: 'Мероприятие не найдено' });
+        }
+
+        // Проверка, что пользователь является владельцем
+        if (event.createdBy !== req.user.id) {
+            return res.status(403).json({ error: 'Вы не можете удалить это мероприятие' });
+        }
+
+        await event.destroy();
+        res.status(200).json({ message: 'Мероприятие удалено' });
+    } catch (error) {
+        res.status(500).json({ error: 'Ошибка при удалении мероприятия', details: error.message });
+    }
 });
 
 module.exports = router;
