@@ -18,7 +18,11 @@ const router = express.Router();
  *     summary: Получить список всех мероприятий
  *     tags: [Events]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     parameters:
  *       - in: query
  *         name: category
@@ -33,7 +37,11 @@ const router = express.Router();
  *     summary: Создать новое мероприятие
  *     tags: [Events]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     requestBody:
  *       required: true
  *       content:
@@ -91,7 +99,11 @@ router.get('/', async (req, res) => {
  *     summary: Получить мероприятие по ID
  *     tags: [Events]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,7 +161,11 @@ router.post('/', async (req, res) => {
  *     summary: Обновить мероприятие
  *     tags: [Events]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,7 +227,11 @@ router.put('/:id', async (req, res) => {
  *     summary: Удалить мероприятие
  *     tags: [Events]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     parameters:
  *       - in: path
  *         name: id

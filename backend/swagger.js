@@ -20,7 +20,11 @@ const options = {
                 ApiKeyAuth: {
                     type: 'apiKey',
                     in: 'header',            // Ключ будет передаваться в заголовке
+<<<<<<< HEAD
                     name: 'x-api-key'         // 
+=======
+                    name: 'x-api-key'         // Вот тот самый заголовок
+>>>>>>> main
                 }
             }
         }

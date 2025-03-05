@@ -18,7 +18,11 @@ const router = express.Router();
  *     summary: Получить список всех пользователей
  *     tags: [Users]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     responses:
  *       200:
  *         description: Список пользователей
@@ -53,7 +57,11 @@ router.get('/', async (req, res) => {
  *     summary: Создать нового пользователя
  *     tags: [Users]
  *     security:
+<<<<<<< HEAD
  *       - ApiKeyAuth: []        # Вот тут говорим, что нужен ключ
+=======
+ *       - ApiKeyAuth: []
+>>>>>>> main
  *     requestBody:
  *       required: true
  *       content:
