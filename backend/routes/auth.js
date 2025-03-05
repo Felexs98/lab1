@@ -3,6 +3,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+const { v4: uuidv4 } = require('uuid');
+const { RefreshToken } = require('../models');
 
 const router = express.Router();
 
@@ -90,31 +92,106 @@ router.post('/register', async (req, res) => {
  *       500:
  *         description: Внутренняя ошибка сервера
  */
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+ router.post('/login', async (req, res) => {
+     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: 'Заполните email и пароль' });
+     if (!email || !password) {
+         return res.status(400).json({ message: 'Заполните email и пароль' });
+     }
+
+     try {
+         const user = await User.findOne({ where: { email } });
+         if (!user) {
+             return res.status(401).json({ message: 'Неверные email или пароль' });
+         }
+
+         const isPasswordValid = await bcrypt.compare(password, user.password);
+         if (!isPasswordValid) {
+             return res.status(401).json({ message: 'Неверные email или пароль' });
+         }
+
+         const accessToken = jwt.sign(
+             { id: user.id, email: user.email },
+             process.env.JWT_SECRET,
+             { expiresIn: '15m' }  // Access Token на 15 минут
+         );
+
+         const refreshToken = uuidv4();
+
+         await RefreshToken.create({
+             token: refreshToken,
+             userId: user.id,
+             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)  // Refresh Token на 7 дней
+         });
+
+         res.status(200).json({
+             message: 'Вход выполнен успешно',
+             accessToken,
+             refreshToken
+         });
+     } catch (error) {
+         res.status(500).json({ message: 'Ошибка сервера', error: error.message });
+     }
+ });
+
+ /**
+  * @swagger
+  * /auth/refresh:
+  *   post:
+  *     summary: Обновить Access Token по Refresh Token
+  *     tags: [Auth]
+  *     description: Получение нового Access Token без повторного ввода логина и пароля.
+  *     requestBody:
+  *       required: true
+  *       content:
+  *         application/json:
+  *           schema:
+  *             type: object
+  *             properties:
+  *               refreshToken:
+  *                 type: string
+  *                 description: Действующий Refresh Token, выданный при авторизации.
+  *     responses:
+  *       200:
+  *         description: Успешное обновление Access Token.
+  *         content:
+  *           application/json:
+  *             schema:
+  *               type: object
+  *               properties:
+  *                 accessToken:
+  *                   type: string
+  *                   description: Новый Access Token.
+  *       400:
+  *         description: Если Refresh Token не передан.
+  *       401:
+  *         description: Если Refresh Token не найден или истёк.
+  *       500:
+  *         description: Внутренняя ошибка сервера.
+  */
+router.post('/refresh', async (req, res) => {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+        return res.status(400).json({ message: 'Отсутствует refresh token' });
     }
 
     try {
-        const user = await User.findOne({ where: { email } });
-        if (!user) {
-            return res.status(401).json({ message: 'Неверные email или пароль' });
+        const tokenData = await RefreshToken.findOne({ where: { token: refreshToken } });
+
+        if (!tokenData || tokenData.expiresAt < new Date()) {
+            return res.status(401).json({ message: 'Refresh token недействителен' });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Неверные email или пароль' });
-        }
+        const user = await User.findByPk(tokenData.userId);
 
-        const token = jwt.sign(
+        const newAccessToken = jwt.sign(
             { id: user.id, email: user.email },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '15m' }  // Новый Access Token на 15 минут
         );
 
-        res.status(200).json({ message: 'Вход выполнен успешно', token });
+        res.status(200).json({ accessToken: newAccessToken });
     } catch (error) {
         res.status(500).json({ message: 'Ошибка сервера', error: error.message });
     }
