@@ -15,11 +15,19 @@ const options = {
                 description: 'Локальный сервер',
             },
         ],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        }
     },
-    apis: ['./routes/*.js'], // 
+    apis: ['./routes/*.js'],
 };
 
 const specs = swaggerJsdoc(options);
 
 module.exports = { swaggerUi, specs };
-
