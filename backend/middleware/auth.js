@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const apiKeyMiddleware = (req, res, next) => {
-    // 
     if (req.path.startsWith('/api-docs')) {
         return next();
     }
