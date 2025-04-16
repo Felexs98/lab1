@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { jwtSecret, accessTokenExpired } from "../config/config";
+import { jwtSecret, accessTokenExpired } from "@config/config";
 
 // Тип данных, из которых создаётся токен
 export interface UserPayload {

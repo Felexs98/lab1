@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import EventController from "../controllers/EventController";
+import EventController from "@controllers/EventController";
 
 const router = express.Router();
 

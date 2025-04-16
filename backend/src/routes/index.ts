@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import passport from "../config/passport";
+import passport from "@config/passport";
 import authRoutes from "./auth";
 import userRoutes from "./users";
 import eventRoutes from "./events";
