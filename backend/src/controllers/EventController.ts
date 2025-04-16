@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Event from "../models/Event";
-import { formatDate } from "../utils/formatDate";
+import Event from "@models/Event";
+import { formatDate } from "@utils/formatDate";
 
 class EventController {
   static async getAllEvents(req: Request, res: Response): Promise<Response> {

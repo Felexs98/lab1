@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { authenticateDB } from "./config/db";
+import { authenticateDB } from "@config/db";
 import { syncDatabase } from "./models";
 import app from "./app";
 

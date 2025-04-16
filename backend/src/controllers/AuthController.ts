@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { generateAccessToken } from "../services/tokenService";
-import UserModel from "../models/User";
-import RefreshToken from "../models/RefreshToken";
+import { generateAccessToken } from "@services/tokenService";
+import UserModel from "@models/User";
+import RefreshToken from "@models/RefreshToken";
 
 class AuthController {
   static async register(req: Request, res: Response): Promise<Response> {
