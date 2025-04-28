@@ -1,10 +1,95 @@
 .container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #1e1e1e; /* тёмный фон контейнера */
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   text-align: center;
-  padding: 20px;
+  color: #e0e0e0; /* светлый текст */
+}
 
-  h2 {
-    margin-bottom: 20px;
+.title {
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #e0e0e0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input {
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #121212;
+    color: #e0e0e0;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #4caf50;
+      outline: none;
+    }
+  }
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+}
+
+.registerLink {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #bbb;
+}
+
+.backToMain {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #bbb;
+}
+
+.link {
+  color: #81c784; /* светло-зелёный */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #66bb6a;
+    text-decoration: underline;
+  }
+}
+
+.success {
+  color: #81c784;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 500px) {
+  .container {
+    margin: 40px 20px;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
   }
 }

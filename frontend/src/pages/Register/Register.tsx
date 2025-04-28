@@ -1,31 +1,48 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { registerUser } from '@/api/authService';
-import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { registerThunk } from '@/features/auth/authSlice';
+import Notification from '@/components/Notification/Notification';
 import styles from './Register.module.scss';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');        // ← переменная для name
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authError = useAppSelector((state) => state.auth.error);
+
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setNotification(null);
+
     try {
-      console.log('Отправляю:', { email, name, password }); // ← для проверки
-      await registerUser(email, name, password);            // ← правильный порядок!
-      navigate('/login');
-    } catch (err) {
-      setError('Ошибка регистрации');
+      await dispatch(registerThunk({ email, name, password })).unwrap();
+      setNotification({ message: 'Регистрация прошла успешно!', type: 'success' });
+
+      setTimeout(() => {
+        navigate('/login', { state: { successMessage: 'Регистрация прошла успешно!' } });
+      }, 1000);
+    } catch (error: any) {
+      setNotification({ message: error || 'Ошибка регистрации', type: 'error' });
     }
   };
 
   return (
     <div className={styles.container}>
       <h2>Регистрация</h2>
-      {error && <ErrorMessage message={error} />}
+
+      {(notification || authError) && (
+        <Notification
+          message={notification?.message || authError || ''}
+          type={notification?.type || 'error'}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="email"
@@ -48,9 +65,16 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit" className={styles.button}>Зарегистрироваться</button>
       </form>
-      <p>Уже есть аккаунт? <Link to="/login">Войти</Link></p>
+
+      <p className={styles.loginLink}>
+        Уже есть аккаунт? <Link to="/login" className={styles.link}>Войти</Link>
+      </p>
+
+      <p className={styles.backToMain}>
+        <Link to="/" className={styles.link}>← Вернуться на главную</Link>
+      </p>
     </div>
   );
 };

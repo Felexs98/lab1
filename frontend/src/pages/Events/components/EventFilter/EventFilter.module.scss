@@ -6,7 +6,7 @@
 .title {
   font-size: 1.3rem;
   margin-bottom: 15px;
-  color: #333;
+  color: #e0e0e0; /* светлый текст вместо #333 */
 }
 
 .buttonGroup {
@@ -18,27 +18,27 @@
 
 .button {
   padding: 10px 20px;
-  border: 2px solid #4caf50;
-  background-color: white;
+  border: 2px solid #81c784; /* зелёная граница для тёмной темы */
+  background-color: #1e1e1e; /* тёмный фон кнопки */
   border-radius: 8px;
   font-size: 1rem;
-  color: black;
+  color: #e0e0e0; /* светлый текст */
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    background-color: #e0f2f1;
-    border-color: #43a047;
+    background-color: #333;
+    border-color: #66bb6a;
   }
 }
 
 .active {
-  background-color: #4caf50;
-  color: #fff;
-  border-color: #4caf50;
+  background-color: #81c784; /* активная кнопка зелёная */
+  color: #1e1e1e;             /* текст тёмный */
+  border-color: #81c784;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #66bb6a;
   }
 }
 
