@@ -159,10 +159,15 @@ class EventController {
         return res.status(403).json({ error: "Нет прав на удаление" });
       }
 
+      // Удаляем участников вручную, если нет каскада
+      await Participant.destroy({ where: { eventId: event.id } });
+
+      // Теперь удаляем событие
       await event.destroy();
 
       return res.status(200).json({ message: "Мероприятие удалено" });
     } catch (error) {
+      console.error('Ошибка при удалении события:', error);
       return res.status(500).json({
         error: "Ошибка при удалении",
         details: (error as Error).message,

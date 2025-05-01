@@ -1,6 +1,7 @@
 import styles from './EventCard.module.scss';
 import { Event } from '../types/event';
 import EventParticipants from './EventParticipants';
+import { useAppSelector } from '@/app/hooks';
 
 interface EventCardProps {
   event: Event;
@@ -10,8 +11,9 @@ interface EventCardProps {
   onRefresh?: () => void;
 }
 
-const EventCard = ({ event, onDelete, onEdit, currentUserId, onRefresh }: EventCardProps) => {
-  const isMyEvent = event.createdBy === currentUserId;
+const EventCard = ({ event, onDelete, onEdit, onRefresh }: EventCardProps) => {
+  const currentUserId = useAppSelector((state) => state.auth.user?.id);
+  const isMyEvent = event.createdBy === currentUserId
 
   const handleDeleteClick = () => {
     if (onDelete) onDelete();
@@ -26,7 +28,7 @@ const EventCard = ({ event, onDelete, onEdit, currentUserId, onRefresh }: EventC
       {onDelete && (
         <button className={styles.deleteButton} onClick={handleDeleteClick}>×</button>
       )}
-      <div className={styles.titleWrapper}>
+      <div className={`${styles.titleWrapper} ${onDelete ? styles.withDelete : ''}`}>
         <h3>{event.title}</h3>
       </div>
       <p className={styles.description}>{event.description}</p>
