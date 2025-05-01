@@ -1,0 +1,68 @@
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+}
+
+.description {
+  margin-bottom: 25px;
+  color: #bbb;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Если мероприятий нет — сообщение */
+.empty {
+  font-size: 1.1rem;
+  color: #999;
+  margin-top: 30px;
+}
+
+/* Карточки мероприятий */
+.card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: #81c784;
+  }
+
+  p {
+    margin: 5px 0;
+    color: #bbb;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+}

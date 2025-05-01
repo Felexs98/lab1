@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "@config/db";
+import { UserAttributes } from "./User";
 
 interface EventAttributes {
   id: string;
@@ -22,6 +23,7 @@ class EventModel
   public date!: Date;
   public category!: EventAttributes["category"];
   public createdBy!: string;
+  public Participants?: UserAttributes[];
 }
 
 const Event = sequelize.define<EventModel>(
@@ -49,7 +51,7 @@ const Event = sequelize.define<EventModel>(
         "лекция",
         "выставка",
         "семинар",
-        "фестиваль",
+        "фестиваль"
       ),
       allowNull: false,
       defaultValue: "лекция",
@@ -66,7 +68,7 @@ const Event = sequelize.define<EventModel>(
   },
   {
     timestamps: false,
-  },
+  }
 );
 
 export default Event;

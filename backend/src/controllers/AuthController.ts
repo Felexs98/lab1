@@ -54,7 +54,15 @@ class AuthController {
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       });
 
-      return res.status(200).json({ accessToken, refreshToken });
+      return res.status(200).json({
+        accessToken,
+        refreshToken,
+        username: user.name,
+        user: {
+          id: user.id,
+          email: user.email
+        }
+      });
     } catch (error) {
       return res.status(500).json({
         message: "Ошибка сервера",
@@ -89,7 +97,7 @@ class AuthController {
         email: user.email,
       });
 
-      return res.status(200).json({ accessToken: newAccessToken });
+      return res.status(200).json({ accessToken: newAccessToken, refreshToken: refreshToken });
     } catch (error) {
       return res.status(500).json({
         message: "Ошибка сервера",

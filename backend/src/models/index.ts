@@ -3,6 +3,7 @@ import User from "./User";
 import Event from "./Event";
 import RefreshToken from "./RefreshToken";
 import "./relations";
+import Participant  from "@models/Participant";
 
 const syncDatabase = async (): Promise<void> => {
   try {
@@ -13,4 +14,4 @@ const syncDatabase = async (): Promise<void> => {
   }
 };
 
-export { sequelize, syncDatabase, User, Event, RefreshToken };
+export { sequelize, syncDatabase, User, Event, RefreshToken, Participant };
